@@ -1,0 +1,24 @@
+{
+  "name": "meshblu-secure-chat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.coffee",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "coffee index.coffee"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/octoblu/meshblu-secure-chat.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/octoblu/meshblu-secure-chat/issues"
+  },
+  "homepage": "https://github.com/octoblu/meshblu-secure-chat",
+  "dependencies": {
+    "colors": "^1.0.3",
+    "meshblu": "^1.13.1"
+  }
+}
