@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.coffee",
+  "bin": {
+    "meshblu-secure-chat": "./index.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "coffee index.coffee"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -18,6 +21,7 @@
   },
   "homepage": "https://github.com/octoblu/meshblu-secure-chat",
   "dependencies": {
+    "coffee-script": "^1.9.0",
     "colors": "^1.0.3",
     "meshblu": "^1.13.1"
   }
