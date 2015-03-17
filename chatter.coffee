@@ -6,11 +6,12 @@ _ = require 'lodash'
 class Chatter
   constructor: (@meshbluConfig)->
     @devices = {}
+    @encrypted = true
     @prompt = readline.createInterface
       input:  process.stdin,
       output: process.stdout
 
-  searchForDevices: (callback=->) =>
+  getChatDevice: (callback=->) =>
     @conn.devices type: 'octoblu:chatter', (response) =>
       return console.error error if response.error?
       _.each response.devices, (device) =>
@@ -22,21 +23,24 @@ class Chatter
     @conn = meshblu.createConnection @meshbluConfig
 
     @conn.on 'ready', =>
-      @searchForDevices =>
+      @getChatDevice =>
         console.log colors.cyan "Your UUID is #{@meshbluConfig.uuid}"
 
     @conn.on 'message', (msg) =>
-      return console.log colors.red "#{msg.fromUuid} says: #{msg.payload}" if msg.payload
-      return console.log colors.green "#{msg.fromUuid} says: #{msg.decryptedPayload}" if msg.encryptedPayload
+      return console.log colors.magenta '[encrypted]', colors.red "#{msg.fromUuid} says: #{msg.payload}" if msg.payload
+      return console.log colors.magenta '[unencrypted]', colors.green "#{msg.fromUuid} says: #{msg.decryptedPayload}" if msg.encryptedPayload
 
     @prompt.on 'line', @onInput
-
 
   onInput: (msg) =>
     pieces = msg.split ' '
     msg = []
     while pieces.length
       piece = pieces.shift()
+
+      if piece == '/refresh'
+        @getChatDevice => console.log 'Devices refreshed...'
+        continue
 
       if piece == '/uuid'
         @friendUsername = null
@@ -65,7 +69,7 @@ class Chatter
       @conn.encryptMessage uuid, msg
       return console.log colors.green 'sent message to', @friendUsername, uuid
 
-    if !@encrypted
+    unless @encrypted
       @conn.message uuid, msg
       return console.log colors.red 'sent message to', @friendUsername, uuid
 
