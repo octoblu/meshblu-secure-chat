@@ -3,7 +3,7 @@
 Securely or not-so-securely send message from one devices to another.
 
 ### Setup:
-`./setup joe-smith` - username must not include spaces
+`./setup.sh joe-smith` - username must not include spaces
 
 ### Manual Setup:
     npm install meshblu-util -g
