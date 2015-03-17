@@ -1,6 +1,6 @@
 ## Meshblu Secure Chat
 
-Securely or not-so-securely send message from one devices to another.
+Securely or not-so-securely send message from one device to another.
 
 ### Setup:
 `./setup.sh joe-smith` - username must not include spaces
