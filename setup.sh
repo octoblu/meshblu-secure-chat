@@ -7,5 +7,5 @@ fi
 npm install meshblu-util -g
 npm install
 meshblu-util register -t octoblu:chatter > meshblu.json
-meshblu-util update ./meshblu.json -d "{\"discoverWhitelist\":null,\"name\":\"$1\"}" 
+meshblu-util update ./meshblu.json -d "{\"discoverWhitelist\":null,\"recieveWhitelist\":null,\"name\":\"$1\"}" > /dev/null 
 meshblu-util keygen ./meshblu.json

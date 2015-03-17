@@ -10,19 +10,20 @@ class Chatter
       input:  process.stdin,
       output: process.stdout
 
-  searchForDevices: () =>
+  searchForDevices: (callback=->) =>
     @conn.devices type: 'octoblu:chatter', (response) =>
       return console.error error if response.error?
       _.each response.devices, (device) =>
-        @devices[device.name] = device.uuid 
+        @devices[device.name] = device.uuid
+      callback() 
 
   start: =>
-    console.log colors.cyan "Your UUID is #{@meshbluConfig.uuid}"
-
+    console.log colors.magenta 'Loading chat service...'
     @conn = meshblu.createConnection @meshbluConfig
 
     @conn.on 'ready', =>
-      @searchForDevices()
+      @searchForDevices =>
+        console.log colors.cyan "Your UUID is #{@meshbluConfig.uuid}"
 
     @conn.on 'message', (msg) =>
       return console.log colors.red "#{msg.fromUuid} says: #{msg.payload}" if msg.payload
