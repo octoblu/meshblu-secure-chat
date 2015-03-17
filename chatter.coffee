@@ -24,7 +24,10 @@ class Chatter
 
     @conn.on 'ready', =>
       @getChatDevice =>
-        console.log colors.cyan "Your UUID is #{@meshbluConfig.uuid}"
+        uuid = @meshbluConfig.uuid
+        uuidsToNames = _.invert @devices
+        name = uuidsToNames[uuid]
+        console.log colors.cyan "Your username is #{name} and your uuid is #{uuid}"
 
     @conn.on 'message', (msg) =>
       return console.log colors.magenta '[encrypted]', colors.red "#{msg.fromUuid} says: #{msg.payload}" if msg.payload
