@@ -18,6 +18,10 @@ class Chatter
         @devices[device.name] = device.uuid
       callback() 
 
+  getNameFromDevices: (uuid) =>
+    uuidsToNames = _.invert @devices
+    uuidsToNames[uuid]
+
   start: =>
     console.log colors.magenta 'Loading chat service...'
     @conn = meshblu.createConnection @meshbluConfig
@@ -25,13 +29,13 @@ class Chatter
     @conn.on 'ready', =>
       @getChatDevice =>
         uuid = @meshbluConfig.uuid
-        uuidsToNames = _.invert @devices
-        name = uuidsToNames[uuid]
+        name = @getNameFromDevices uuid
         console.log colors.cyan "Your username is #{name} and your uuid is #{uuid}"
 
     @conn.on 'message', (msg) =>
-      return console.log colors.magenta '[encrypted]', colors.red "#{msg.fromUuid} says: #{msg.payload}" if msg.payload
-      return console.log colors.magenta '[unencrypted]', colors.green "#{msg.fromUuid} says: #{msg.decryptedPayload}" if msg.encryptedPayload
+      name = @getNameFromDevices msg.fromUuid || msg.fromUuid
+      return console.log colors.magenta '[encrypted]', colors.red "#{name} says: #{msg.payload}" if msg.payload
+      return console.log colors.magenta '[unencrypted]', colors.green "#{name} says: #{msg.decryptedPayload}" if msg.encryptedPayload
 
     @prompt.on 'line', @onInput
 
