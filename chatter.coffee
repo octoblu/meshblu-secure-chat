@@ -39,7 +39,7 @@ class Chatter
       piece = pieces.shift()
 
       if piece == '/refresh'
-        @getChatDevice => console.log 'Devices refreshed...'
+        @getChatDevice => console.log 'Devices refreshed.'
         continue
 
       if piece == '/uuid'
@@ -67,7 +67,7 @@ class Chatter
     uuid = @devices[@friendUsername] || @friendUuid
     if @encrypted
       @conn.encryptMessage uuid, msg
-      return console.log colors.green 'sent message to', @friendUsername, uuid
+      return console.log colors.green 'sent encrypted message to', @friendUsername, uuid
 
     unless @encrypted
       @conn.message uuid, msg
