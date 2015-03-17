@@ -34,8 +34,8 @@ class Chatter
 
     @conn.on 'message', (msg) =>
       name = @getNameFromDevices msg.fromUuid || msg.fromUuid
-      return console.log colors.magenta '[encrypted]', colors.red "#{name} says: #{msg.payload}" if msg.payload
-      return console.log colors.magenta '[unencrypted]', colors.green "#{name} says: #{msg.decryptedPayload}" if msg.encryptedPayload
+      return console.log colors.magenta '[unencrypted]', colors.red "#{name} says: #{msg.payload}" if msg.payload
+      return console.log colors.magenta '[encrypted]', colors.green "#{name} says: #{msg.decryptedPayload}" if msg.encryptedPayload
 
     @prompt.on 'line', @onInput
 
@@ -46,7 +46,7 @@ class Chatter
       piece = pieces.shift()
 
       if piece == '/refresh'
-        @getChatDevice => console.log 'Devices refreshed.'
+        @getChatDevice => console.log 'Devices refreshed.', _.keys @devices
         continue
 
       if piece == '/uuid'
